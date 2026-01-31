@@ -26,6 +26,7 @@ async def main():
         await bot.load_extension("events.on_message")
         await bot.load_extension("commands.mentions")
         await bot.load_extension("commands.subscribers")
+        await bot.load_extension("commands.help")
 
         # Start bot
         await bot.start(BOT_TOKEN)

@@ -2,6 +2,9 @@
 - `!n mentions [limit]`
   Shows your most recent mentions (default limit 10).
 
+- `!n help`
+    Shows all availabe commands.
+
 - `!n mentionsof <user> [limit]` *(Owner only)*
   Shows the most recent mentions of the specified user.
 
