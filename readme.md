@@ -28,4 +28,4 @@
     ```!n status online playing Chess
     !n status idle listening Music
     !n status dnd watching Tutorials
-    !n status invisible competing in Coding```
+    !n status invisible competing in Coding
