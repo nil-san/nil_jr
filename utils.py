@@ -2,6 +2,12 @@ import discord
 from datetime import datetime
 from discord.ext import commands
 from nil_jr.db import is_active_subscriber  # use the global DB function
+import os
+
+import os
+if os.environ.get("BOT_RUNNING") == "1":
+    raise SystemExit
+os.environ["BOT_RUNNING"] = "1"
 
 def make_embed(title: str, description: str, color=discord.Color.blurple()):
     """Return a nicely formatted discord.Embed with timestamp."""
