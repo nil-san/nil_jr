@@ -16,20 +16,37 @@ if not BOT_TOKEN:
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix=["!n", "!n "], intents=intents)
+bot = commands.Bot(
+    command_prefix=["n!", "n! "],
+    intents=intents,
+    help_command=None  # Disable default help
+)
 bot.owner_id = OWNER_ID  # Make owner_id accessible in cogs
+
+# ================= EVENT: READY =================
+@bot.event
+async def on_ready():
+    print(f"Logged in as {bot.user} ({bot.user.id})")
+    # Default status/activity
+    await bot.change_presence(
+        status=discord.Status.online,
+        activity=discord.Game(name="Nil Jr Bot")
+    )
 
 # ================= ASYNC START =================
 async def main():
     async with bot:
-        # Load cogs (await required in discord.py v2)
-        await bot.load_extension("events.on_message")
-        await bot.load_extension("commands.mentions")
-        await bot.load_extension("commands.subscribers")
-        await bot.load_extension("commands.help")
+        # ---------- Load cogs ----------
+        await bot.load_extension("nil_jr.events.on_message")
+        await bot.load_extension("nil_jr.commands.mentions")
+        await bot.load_extension("nil_jr.commands.subscribers")
+        await bot.load_extension("nil_jr.commands.help")
+        await bot.load_extension("nil_jr.commands.owner")
 
-        # Start bot
+        # ---------- Start bot ----------
         await bot.start(BOT_TOKEN)
 
-# Run the async main function
-asyncio.run(main())
+# ================= RUN =================
+if __name__ == "__main__":
+    # Use asyncio.run() safely
+    asyncio.run(main())

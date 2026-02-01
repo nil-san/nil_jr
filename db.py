@@ -2,10 +2,12 @@ import sqlite3
 from datetime import datetime
 
 DB_FILE = "mentions.db"
-conn = sqlite3.connect(DB_FILE)
+# Keep your original connection but allow async safe access
+conn = sqlite3.connect(DB_FILE, check_same_thread=False)
+conn.row_factory = sqlite3.Row
 cursor = conn.cursor()
 
-# Tables
+# ---------------- Tables ----------------
 cursor.execute("""
 CREATE TABLE IF NOT EXISTS subscribers (
     user_id INTEGER PRIMARY KEY,
@@ -26,14 +28,14 @@ CREATE TABLE IF NOT EXISTS mentions (
 """)
 conn.commit()
 
-# DB helper functions
+# ---------------- DB helper functions ----------------
 def is_active_subscriber(user_id: int) -> bool:
     cursor.execute(
         "SELECT enabled FROM subscribers WHERE user_id = ?",
         (user_id,)
     )
     row = cursor.fetchone()
-    return row is not None and row[0] == 1
+    return row is not None and row["enabled"] == 1  # use named column
 
 def add_subscriber(user_id: int):
     cursor.execute(
